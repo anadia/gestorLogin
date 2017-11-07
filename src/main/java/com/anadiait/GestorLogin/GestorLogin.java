@@ -16,7 +16,7 @@ public class GestorLogin {
 		ICuenta cuenta = repo.buscar(usuario); 
 		
 		if (cuenta == null)
-			throw new ExcepcionUsuarioDesconocido();
+			throw new ExcepcionUsuarioDesconocido(); 
 		
 		if (cuenta.estaEnUso())
 			throw new ExcepcionCuentaEnUso();
@@ -32,7 +32,7 @@ public class GestorLogin {
 					usuarioAnterior = usuario;
 				}
 				setNumFallos(getNumFallos() + 1);
-				if (getNumFallos() == MAX_FALLOS) {
+				if (getNumFallos() >= MAX_FALLOS) {
 					cuenta.bloquearCuenta(); 
 				}
 			}

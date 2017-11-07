@@ -63,6 +63,30 @@ public class GestorLoginTest {
     }
         
         
-  }
+  } 
 
+  @Test
+  public void siCuatroFallos_CuentaBloqueada() {
+    when(cuenta.claveCorrecta("1235")).thenReturn(false);
+    
+    login.acceder("pepe",  "1235");
+    login.acceder("pepe",  "1235");
+    login.acceder("pepe",  "1235");
+    login.acceder("pepe",  "1235");
+    
+    verify(cuenta, atLeastOnce()).bloquearCuenta();
+    assertThat(login.getNumFallos(), is(3)); 
+    
+    
+  }
+  @Test
+  public void siEstaBloqueada_SEDeniegaAcceso() {
+    when(cuenta.estaBloqueada()).thenReturn(true);
+    
+    login.acceder("pepe",  "1234");
+    
+    verify(cuenta, never()).entrarCuenta();
+    
+    
+  }
 }
